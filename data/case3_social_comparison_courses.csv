@@ -1,0 +1,81 @@
+Course,Indicator,Score
+A,Grades,0.602
+A,Workload,0.849
+A,Subject,0.502
+A,Methodology,0.348
+A,Course_Interaction_Frequency,0.541
+A,Daily_Access_Frequency,0.287
+A,Unique_AR_Indexn,0.278
+A,Course_Interaction_Span,0.837
+A,AR_Interaction_Span,0.353
+A,AR_Interaction_Frequency,0.702
+A,AR_First_Access_Interval,0.473
+A,Instruction,0.636
+A,Preparation,0.598
+A,Consolidation,0.796
+A,Discovery,0.587
+A,Social Classroom,0.724
+A,Social Group,0.016
+A,Social Individual,0.618
+A,Modality Presential,0.761
+A,Modality Remote,0.459
+B,Grades,0.581
+B,Workload,0.522
+B,Subject,0.76
+B,Methodology,0.791
+B,Course_Interaction_Frequency,0.147
+B,Daily_Access_Frequency,0.689
+B,Unique_AR_Indexn,0.075
+B,Course_Interaction_Span,0.328
+B,AR_Interaction_Span,0.244
+B,AR_Interaction_Frequency,0.576
+B,AR_First_Access_Interval,0.68
+B,Instruction,0.824
+B,Preparation,0.847
+B,Consolidation,0.353
+B,Discovery,0.559
+B,Social Classroom,0.419
+B,Social Group,0.25
+B,Social Individual,0.089
+B,Modality Presential,0.695
+B,Modality Remote,0.322
+C,Grades,0.559
+C,Workload,0.111
+C,Subject,0.271
+C,Methodology,0.439
+C,Course_Interaction_Frequency,0.37
+C,Daily_Access_Frequency,0.051
+C,Unique_AR_Indexn,0.694
+C,Course_Interaction_Span,0.07
+C,AR_Interaction_Span,0.246
+C,AR_Interaction_Frequency,0.193
+C,AR_First_Access_Interval,0.226
+C,Instruction,0.544
+C,Preparation,0.73
+C,Consolidation,0.433
+C,Discovery,0.295
+C,Social Classroom,0.133
+C,Social Group,0.625
+C,Social Individual,0.494
+C,Modality Presential,0.126
+C,Modality Remote,0.259
+AVG,Grades,0.581
+AVG,Workload,0.494
+AVG,Subject,0.511
+AVG,Methodology,0.526
+AVG,Course_Interaction_Frequency,0.353
+AVG,Daily_Access_Frequency,0.342
+AVG,Unique_AR_Indexn,0.349
+AVG,Course_Interaction_Span,0.412
+AVG,AR_Interaction_Span,0.281
+AVG,AR_Interaction_Frequency,0.49
+AVG,AR_First_Access_Interval,0.46
+AVG,Instruction,0.668
+AVG,Preparation,0.725
+AVG,Consolidation,0.528
+AVG,Discovery,0.48
+AVG,Social Classroom,0.425
+AVG,Social Group,0.297
+AVG,Social Individual,0.4
+AVG,Modality Presential,0.528
+AVG,Modality Remote,0.347
