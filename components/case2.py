@@ -24,8 +24,11 @@ def case2_layout(df):
                         }
                     ),
                     html.P(
-                        "Top courses = top 20% highest-rated for workload satisfaction. "
-                        "Bottom courses = bottom 20% lowest-rated for workload satisfaction.",
+                        "Weighted student performance (0-1 scale) compared between courses rated highest (Top courses) "
+                        "and lowest (Bottom courses) for workload satisfaction, broken down by teaching methodology. "
+                        "Bars show whether students in well-rated courses consistently outperform those "
+                        "in poorly-rated ones, and how much that gap varies across methodologies. "
+                        "Hover over a bar for details, or expand the section below to see the performance gap.",
                         style={
                             "fontSize": "14px",
                             "color": "#666",
@@ -200,7 +203,7 @@ def case2_layout(df):
 
             # key insight
             html.Div(
-                "Top courses consistently reach excellent performance while bottom courses fall into fail or pass — the gap is widest in lectures and case studies, and narrowest in flipped classroom.",
+                "Top courses consistently reach excellent performance while bottom courses fall into fail or pass. The gap is widest in lectures and case studies, and narrowest in flipped classroom.",
                 style={
                     "background": "#E6F1FB",
                     "borderLeft": "3px solid #378ADD",
@@ -256,7 +259,7 @@ def case2_layout(df):
             ),
 
             html.Div(
-                "These results show an association between workload satisfaction and student performance, not a causal relationship. Differences may reflect course-level factors such as subject difficulty, cohort characteristics, or learning design, not the teaching methodology alone.",
+                "These results show an association between workload satisfaction and student performance, not a causal relationship. Differences may reflect course-level factors such as course characteristics, learning design, student's workload and performance, not the teaching methodology alone.",
                 style={
                     "background": "#F8F8F8",
                     "borderRadius": "6px",

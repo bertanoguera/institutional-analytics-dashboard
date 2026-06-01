@@ -165,21 +165,21 @@ INSIGHTS = {
     "lms": (
         "Course A shows the broadest LMS engagement, leading on both interaction frequency and overall "
         "interaction span. Course B stands out for the highest daily access rate. Course C presents a "
-        "contrasting profile: it makes diverse use of learning resources — reflected in a high unique A/R "
-        "index — yet records the lowest daily access frequency and the shortest first access interval, "
+        "contrasting profile: it makes diverse use of learning resources, reflected in a high unique A/R "
+        "index, yet records the lowest daily access frequency and the shortest first access interval, "
         "suggesting more concentrated but less regular platform use."
     ),
     "tasks": (
         "Course A devotes a notably higher share of time to consolidation activities compared to the "
         "institutional average. Course B leads on both instruction and preparation hours but allocates "
-        "considerably less time to consolidation. Course C falls below average across all four task types, "
+        "considerably less time to consolidation. Course C falls below average across almost all four task types, "
         "with discovery activities particularly underrepresented."
     ),
     "social": (
         "Course A relies heavily on classroom-based social activities while making almost no use of group "
         "formats. Course C shows the opposite pattern: it favours group activities and individual work, "
         "with minimal classroom interaction and near-absent presential delivery. Course B has the most "
-        "balanced profile, remaining close to the institutional average across all social and modality "
+        "balanced profile, remaining close to the institutional average across the majority of social and modality "
         "indicators."
     ),
 }
@@ -246,10 +246,28 @@ def _fmt_original(score, ind):
         return f"{orig:.1f} {unit}"
 
 
-def _build_figure(df, selected_courses, active_tab):
-    indicators    = GROUP_INDICATORS[active_tab]
+def _build_figure(df, selected_courses, active_tab, selected_indicators=None):
+    all_indicators  = GROUP_INDICATORS[active_tab]
+    all_short_names = GROUP_SHORT_NAMES[active_tab]
+    ind_to_short    = dict(zip(all_indicators, all_short_names))
+
+    # Apply indicator filter (show or hide mode)
+    if isinstance(selected_indicators, dict):
+        mode  = selected_indicators.get("mode", "show")
+        items = set(selected_indicators.get("items", []))
+        if mode == "hide":
+            sel = [ind for ind in all_indicators if ind not in items]
+        else:  # show
+            sel = [ind for ind in all_indicators if ind in items]
+        indicators = sel if sel else all_indicators
+    elif selected_indicators:  # plain list — legacy show mode
+        sel = [ind for ind in all_indicators if ind in set(selected_indicators)]
+        indicators = sel if sel else all_indicators
+    else:
+        indicators = all_indicators
+
     display_names = [INDICATOR_DISPLAY[ind] for ind in indicators]
-    short_names   = GROUP_SHORT_NAMES[active_tab]
+    short_names   = [ind_to_short[ind] for ind in indicators]
     n             = len(indicators)
 
     avg_df  = df[df["Course"] == "AVG"]
@@ -315,8 +333,9 @@ def _build_figure(df, selected_courses, active_tab):
 
     # institutional average shown as a vertical tick mark (line-ns marker)
     # size is calculated so it covers roughly half of each bar-group slot
-    usable_px  = TAB_HEIGHTS[active_tab] - 120
-    marker_px  = max(14, int((usable_px / n) * 0.50))
+    chart_height = TAB_HEIGHTS[active_tab]
+    usable_px    = chart_height - 120
+    marker_px    = max(14, int((usable_px / n) * 0.50))
 
     avg_scores = [avg_val[ind] for ind in indicators]
     avg_custom = [
@@ -491,14 +510,50 @@ def register_case3_callbacks(app, df):
 
     @app.callback(
         Output("case3-variable-list", "children"),
-        Input("case3-active-tab", "data"),
+        [
+            Input("case3-active-tab", "data"),
+            Input("case3-selected-indicators", "data"),
+        ],
     )
-    def update_variable_list(active):
-        active = active or "outcomes"
-        names  = GROUP_SHORT_NAMES[active]
-        group  = GROUP_NAMES[active]
+    def update_variable_list(active, selected_indicators):
+        active     = active or "outcomes"
+        all_names  = GROUP_SHORT_NAMES[active]
+        all_inds   = GROUP_INDICATORS[active]
+        group      = GROUP_NAMES[active]
+        ind_to_short = dict(zip(all_inds, all_names))
+
+        if selected_indicators:
+            if isinstance(selected_indicators, dict):
+                mode  = selected_indicators.get("mode", "show")
+                items = set(selected_indicators.get("items", []))
+                if mode == "hide":
+                    hidden_short  = [ind_to_short[i] for i in all_inds if i in items and i in ind_to_short]
+                    visible_short = [ind_to_short[i] for i in all_inds if i not in items and i in ind_to_short]
+                    if hidden_short and len(visible_short) < len(all_names):
+                        return (
+                            f"Filtered: {group} — hiding {', '.join(hidden_short)} "
+                            f"({len(visible_short)} of {len(all_names)} shown). "
+                            "Hover over a variable name on the axis to read its definition."
+                        )
+                else:  # show mode
+                    visible = [ind_to_short[i] for i in all_inds if i in items and i in ind_to_short]
+                    if visible:
+                        return (
+                            f"Filtered: {group} — showing {len(visible)} of {len(all_names)}: "
+                            f"{', '.join(visible)}. "
+                            "Hover over a variable name on the axis to read its definition."
+                        )
+            else:  # plain list (legacy)
+                visible = [ind_to_short[i] for i in all_inds if i in set(selected_indicators) and i in ind_to_short]
+                if visible:
+                    return (
+                        f"Filtered: {group} — showing {len(visible)} of {len(all_names)}: "
+                        f"{', '.join(visible)}. "
+                        "Hover over a variable name on the axis to read its definition."
+                    )
+
         return (
-            f"Showing: {group} ({len(names)} variables) — {', '.join(names)}. "
+            f"Showing: {group} ({len(all_names)} variables) — {', '.join(all_names)}. "
             "Hover over a variable name on the axis to read its definition."
         )
 
@@ -507,12 +562,23 @@ def register_case3_callbacks(app, df):
         [
             Input("case3-selected-courses", "data"),
             Input("case3-active-tab", "data"),
+            Input("case3-selected-indicators", "data"),
         ],
     )
-    def update_chart(selected_courses, active_tab):
+    def update_chart(selected_courses, active_tab, selected_indicators):
         selected_courses = selected_courses or ["A"]
         active_tab       = active_tab or "outcomes"
-        return _build_figure(df, selected_courses, active_tab)
+        return _build_figure(df, selected_courses, active_tab, selected_indicators)
+
+    @app.callback(
+        Output("case3-selected-indicators", "data"),
+        [Input(f"case3-tab-{t}", "n_clicks") for t in _TABS],
+        prevent_initial_call=True,
+    )
+    def clear_indicators_on_tab_click(*_):
+        # When the user manually clicks a tab, clear the indicator filter so
+        # the new tab starts showing all its indicators by default.
+        return None
 
     @app.callback(
         Output("case3-insight-text", "children"),

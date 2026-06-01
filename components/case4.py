@@ -52,12 +52,12 @@ def case4_layout(df):
                         },
                     ),
                     html.P(
-                        [
-                            html.Strong("Top courses"),
-                            " = top 20% highest-rated for workload satisfaction.  ",
-                            html.Strong("Bottom courses"),
-                            " = bottom 20% lowest-rated for workload satisfaction.",
-                        ],
+                        "Shannon Diversity Index, a measure of LMS task variety (0-2.5 scale), "
+                        "compared between courses rated highest (Top courses)and lowest (Bottom courses) for workload satisfaction, "
+                        "broken down by teaching methodology. "
+                        "Bars show whether more varied task design is associated with better workload "
+                        "satisfaction, and highlight where that pattern breaks down. "
+                        "Hover over a bar for exact values.",
                         style={"fontSize": "14px", "color": "#666", "margin": "0"},
                     ),
                 ],
@@ -85,7 +85,7 @@ def case4_layout(df):
                     html.P(
                         (
                             "A variety score for LMS task types. Higher values indicate a wider mix of "
-                            "activity types — quizzes, forums, assignments, resources, and so on. "
+                            "activity types, such as, quizzes, forums, assignments, resources, and so on. "
                             "Lower values indicate that fewer types dominate the course. "
                             "The scale runs from 0 (a single activity type only) to 2.5 "
                             "(maximum variety across all types)."
@@ -159,9 +159,8 @@ def case4_layout(df):
             html.Div(
                 (
                     "Across most methodologies, courses with higher workload satisfaction show greater "
-                    "task diversity. Project-based learning shows the largest gap. Flipped Classroom is "
-                    "the exception: bottom-rated courses are more diverse than top-rated ones, suggesting "
-                    "that variety alone does not predict workload satisfaction in this context."
+                    "task diversity. Project-based learning shows the largest gap between Top and Bottom courses. Flipped Classroom is "
+                    "the exception."
                 ),
                 style={
                     "background": "#E6F1FB",
@@ -194,7 +193,7 @@ def case4_layout(df):
                     ),
                     (
                         "Flipped Classroom bottom-rated courses display greater task diversity than "
-                        "top-rated courses — the reverse of all other methodologies. This may reflect "
+                        "top-rated courses, the reverse of all other methodologies. This may reflect "
                         "that in flipped classroom contexts, greater variety of online tasks is "
                         "associated with increased perceived workload rather than improved workload "
                         "satisfaction."
@@ -217,8 +216,8 @@ def case4_layout(df):
                 (
                     "These results show an association between task diversity and workload satisfaction, "
                     "not a causal relationship. The direction of the relationship may vary by methodology, "
-                    "as the Flipped Classroom case illustrates. Course-level factors such as subject type, "
-                    "student cohort, and learning design may account for the observed patterns."
+                    "as the Flipped Classroom case illustrates. Course-level factors such as course characteristics, "
+                    "learning design, and student's workload may account for the observed patterns."
                 ),
                 style={
                     "background": "#F8F8F8",

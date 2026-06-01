@@ -154,6 +154,7 @@ def case3_layout(df):
                         },
                     ),
                     dcc.Store(id="case3-active-tab", data="outcomes"),
+                    dcc.Store(id="case3-selected-indicators", data=None),
                 ],
                 style={"marginBottom": "20px"},
             ),

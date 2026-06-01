@@ -43,7 +43,12 @@ def _gap_info(gap):
 
 
 def build_case4_figure(df):
-    methods = METHOD_ORDER
+    # Only include methodologies that are present in the (possibly filtered) df,
+    # preserving the canonical display order.
+    present = set(df["Teaching_Methodology"].unique())
+    methods = [m for m in METHOD_ORDER if m in present]
+    if not methods:
+        return go.Figure()
 
     top_val, bot_val = {}, {}
     for m in methods:
@@ -109,25 +114,26 @@ def build_case4_figure(df):
     ))
 
     # annotation badge on the flip bottom bar to flag the anomaly
-    fig.add_annotation(
-        x="FLIP",
-        y=bot_val["FLIP"],
-        xshift=14,
-        text="<b>⚠ anomaly</b>",
-        showarrow=True,
-        arrowhead=2,
-        arrowsize=0.8,
-        arrowcolor=COLOR_ANOMALY,
-        ax=0,
-        ay=-30,
-        font=dict(size=10, color="white", family="Arial"),
-        bgcolor=COLOR_ANOMALY,
-        bordercolor=COLOR_ANOMALY,
-        borderpad=4,
-        borderwidth=0,
-        xanchor="center",
-        yanchor="bottom",
-    )
+    if "FLIP" in methods:
+        fig.add_annotation(
+            x="FLIP",
+            y=bot_val["FLIP"],
+            xshift=14,
+            text="<b>⚠ anomaly</b>",
+            showarrow=True,
+            arrowhead=2,
+            arrowsize=0.8,
+            arrowcolor=COLOR_ANOMALY,
+            ax=0,
+            ay=-30,
+            font=dict(size=10, color="white", family="Arial"),
+            bgcolor=COLOR_ANOMALY,
+            bordercolor=COLOR_ANOMALY,
+            borderpad=4,
+            borderwidth=0,
+            xanchor="center",
+            yanchor="bottom",
+        )
 
     y_max = max(list(top_val.values()) + list(bot_val.values()))
 
