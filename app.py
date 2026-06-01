@@ -1,3 +1,4 @@
+import os
 import dash
 from dash import html, dcc, Input, Output, State, callback_context
 import pandas as pd
@@ -304,4 +305,5 @@ register_case4_callbacks(app, df4)
 register_agent_callbacks(app, dfs)
 
 if __name__ == "__main__":
-    app.run(debug=True, use_reloader=False)
+    port = int(os.environ.get("PORT", 8050))
+    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
