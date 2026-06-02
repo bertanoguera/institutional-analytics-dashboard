@@ -4,6 +4,7 @@ import re
 import google.generativeai as genai
 from dotenv import load_dotenv
 from agent.schemas import CASE_SCHEMAS, get_filterable_dimensions
+from agent.tracing import trace_llm
 
 load_dotenv()
 
@@ -214,32 +215,40 @@ def classify(query: str, case_id: str) -> dict:
     prompt = _build_prompt(query, case_id)
 
     try:
-        response = _get_model().generate_content(
-            prompt,
-            generation_config=genai.types.GenerationConfig(
-                response_mime_type="application/json",
-                temperature=0,
-            ),
-        )
-        raw = response.text.strip()
+        # wrap the Gemini call in a LangSmith trace so we can see the full
+        # prompt, raw response, and parsed result in the evaluation logs
+        with trace_llm("gemini_classify", {"prompt": prompt, "case_id": case_id}) as out:
+            response = _get_model().generate_content(
+                prompt,
+                generation_config=genai.types.GenerationConfig(
+                    response_mime_type="application/json",
+                    temperature=0,
+                ),
+            )
+            raw = response.text.strip()
 
-        # strip markdown fences if the model adds them despite instructions
-        raw = re.sub(r"^```(?:json)?\s*", "", raw)
-        raw = re.sub(r"\s*```$", "", raw)
+            # strip markdown fences if the model adds them despite instructions
+            raw = re.sub(r"^```(?:json)?\s*", "", raw)
+            raw = re.sub(r"\s*```$", "", raw)
 
-        result = json.loads(raw)
+            result = json.loads(raw)
+            intent = result.get("intent")
 
-        intent = result.get("intent")
-        if intent not in ("filter", "explain"):
-            return {"intent": "explain"}
+            # log what the model returned and what we parsed from it
+            out["raw_response"] = raw
+            out["parsed_intent"] = intent
 
-        if intent == "filter":
-            params = _validate_params(result.get("params", {}), case_id)
-            if not params:
+            if intent not in ("filter", "explain"):
                 return {"intent": "explain"}
-            return {"intent": "filter", "params": params}
 
-        return {"intent": "explain"}
+            if intent == "filter":
+                params = _validate_params(result.get("params", {}), case_id)
+                out["validated_params"] = params
+                if not params:
+                    return {"intent": "explain"}
+                return {"intent": "filter", "params": params}
+
+            return {"intent": "explain"}
 
     except Exception:
         return {"intent": "explain"}

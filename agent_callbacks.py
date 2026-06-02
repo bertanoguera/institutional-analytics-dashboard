@@ -10,6 +10,7 @@ from callbacks.case4_callbacks import build_case4_figure
 from agent.classifier import classify
 from agent.filter import apply_filters
 from agent.explain import explain
+from agent.tracing import trace_query, log_to_run
 
 
 def _build_case2_gap_figure_safe(df):
@@ -744,97 +745,104 @@ def register_agent_callbacks(app, dfs: dict):
         if history and history[-1].get("intent") == "thinking":
             history = history[:-1]
 
-        # detect explicit text-based reset
-        if _is_reset_query(query):
-            history.append({"role": "assistant", "intent": "filter", "text": "Filters cleared."})
-            reset_data = {"reset": True, "params": {}, "ts": time.time()}
-            store_map = {
-                "case1": [reset_data, nu,         nu,         nu        ],
-                "case2": [nu,         reset_data, nu,         nu        ],
-                "case3": [nu,         nu,         reset_data, nu        ],
-                "case4": [nu,         nu,         nu,         reset_data],
-            }
-            return history, *store_map.get(active_case, no_stores), False
+        # wrap the full query cycle in a LangSmith trace
+        with trace_query(query, active_case) as run:
 
-        # retrieve current active filter params for this case
-        cur_store = {"case1": cur_f1, "case2": cur_f2,
-                     "case3": cur_f3, "case4": cur_f4}.get(active_case) or {}
-        current_params = {} if cur_store.get("reset") else cur_store.get("params", {})
+            # detect explicit text-based reset
+            if _is_reset_query(query):
+                history.append({"role": "assistant", "intent": "filter", "text": "Filters cleared."})
+                log_to_run(run, {"intent": "reset"})
+                reset_data = {"reset": True, "params": {}, "ts": time.time()}
+                store_map = {
+                    "case1": [reset_data, nu,         nu,         nu        ],
+                    "case2": [nu,         reset_data, nu,         nu        ],
+                    "case3": [nu,         nu,         reset_data, nu        ],
+                    "case4": [nu,         nu,         nu,         reset_data],
+                }
+                return history, *store_map.get(active_case, no_stores), False
 
-        # classify query 
-        classification = classify(query, active_case)
+            # retrieve current active filter params for this case
+            cur_store = {"case1": cur_f1, "case2": cur_f2,
+                         "case3": cur_f3, "case4": cur_f4}.get(active_case) or {}
+            current_params = {} if cur_store.get("reset") else cur_store.get("params", {})
 
-        if classification["intent"] == "explain":
-            text = explain(
-                query,
-                active_case,
-                data_summary=_data_summaries.get(active_case, ""),
-                recent_history=_recent_messages(history),
-            )
-            history.append({"role": "assistant", "intent": "explain", "text": text})
-            return history, *no_stores, nu
+            # classify query
+            classification = classify(query, active_case)
 
-        new_params = classification["params"]
-
-        # case 3: hard cap of 2 courses
-        if active_case == "case3" and "course" in new_params:
-            requested = new_params["course"]
-            if isinstance(requested, str):
-                requested = [requested]
-            if len(requested) > 2:
-                history.append({
-                    "role": "assistant",
-                    "intent": "explain",
-                    "text": (
-                        "This chart can only display two courses at a time. "
-                        "Showing more would create cognitive overload and make the "
-                        "comparison hard to read. Please choose any two: "
-                        "A and B, A and C, or B and C."
-                    ),
-                })
+            if classification["intent"] == "explain":
+                text = explain(
+                    query,
+                    active_case,
+                    data_summary=_data_summaries.get(active_case, ""),
+                    recent_history=_recent_messages(history),
+                )
+                history.append({"role": "assistant", "intent": "explain", "text": text})
+                log_to_run(run, {"intent": "explain"})
                 return history, *no_stores, nu
 
-        # case 3 indicators must all belong to the same group 
-        if active_case == "case3":
-            for _key in ("indicator", "hide_indicator"):
-                if _key not in new_params:
-                    continue
-                requested = new_params[_key]
+            new_params = classification["params"]
+
+            # case 3: hard cap of 2 courses
+            if active_case == "case3" and "course" in new_params:
+                requested = new_params["course"]
                 if isinstance(requested, str):
                     requested = [requested]
-                groups = {_C3_INDICATOR_GROUP[ind] for ind in requested if ind in _C3_INDICATOR_GROUP}
-                if len(groups) > 1:
-                    group_names = " / ".join(
-                        _C3_GROUP_LABELS[g] for g in sorted(groups)
-                    )
+                if len(requested) > 2:
                     history.append({
                         "role": "assistant",
                         "intent": "explain",
                         "text": (
-                            f"The selected indicators belong to different groups "
-                            f"({group_names}), which cannot be combined in the same "
-                            f"chart — each group uses its own normalisation scale and "
-                            f"the values are not directly comparable across groups. "
-                            f"Please pick indicators from a single group."
+                            "This chart can only display two courses at a time. "
+                            "Showing more would create cognitive overload and make the "
+                            "comparison hard to read. Please choose any two: "
+                            "A and B, A and C, or B and C."
                         ),
                     })
+                    log_to_run(run, {"intent": "explain", "reason": "case3 course cap exceeded"})
                     return history, *no_stores, nu
 
-        # merge new params onto currently active params
-        # dimensions not touched by the new query are preserved, so filters accumulate across turns until the user explicitly resets them.
-        params = _merge_params(current_params, new_params, active_case)
+            # case 3 indicators must all belong to the same group
+            if active_case == "case3":
+                for _key in ("indicator", "hide_indicator"):
+                    if _key not in new_params:
+                        continue
+                    requested = new_params[_key]
+                    if isinstance(requested, str):
+                        requested = [requested]
+                    groups = {_C3_INDICATOR_GROUP[ind] for ind in requested if ind in _C3_INDICATOR_GROUP}
+                    if len(groups) > 1:
+                        group_names = " / ".join(
+                            _C3_GROUP_LABELS[g] for g in sorted(groups)
+                        )
+                        history.append({
+                            "role": "assistant",
+                            "intent": "explain",
+                            "text": (
+                                f"The selected indicators belong to different groups "
+                                f"({group_names}), which cannot be combined in the same "
+                                f"chart — each group uses its own normalisation scale and "
+                                f"the values are not directly comparable across groups. "
+                                f"Please pick indicators from a single group."
+                            ),
+                        })
+                        log_to_run(run, {"intent": "explain", "reason": "cross-group indicators"})
+                        return history, *no_stores, nu
 
-        msg = _filter_summary(params, active_case)
-        history.append({"role": "assistant", "intent": "filter", "text": msg})
+            # merge new params onto currently active params so filters accumulate across turns
+            params = _merge_params(current_params, new_params, active_case)
 
-        filter_data = {"params": params, "ts": time.time()}
-        store_map = {
-            "case1": [filter_data, nu,          nu,          nu         ],
-            "case2": [nu,          filter_data, nu,          nu         ],
-            "case3": [nu,          nu,          filter_data, nu         ],
-            "case4": [nu,          nu,          nu,          filter_data],
-        }
-        return history, *store_map.get(active_case, no_stores), True
+            msg = _filter_summary(params, active_case)
+            history.append({"role": "assistant", "intent": "filter", "text": msg})
+            log_to_run(run, {"intent": "filter", "final_params": params, "filter_summary": msg})
+
+            filter_data = {"params": params, "ts": time.time()}
+            store_map = {
+                "case1": [filter_data, nu,          nu,          nu         ],
+                "case2": [nu,          filter_data, nu,          nu         ],
+                "case3": [nu,          nu,          filter_data, nu         ],
+                "case4": [nu,          nu,          nu,          filter_data],
+            }
+            return history, *store_map.get(active_case, no_stores), True
 
     # per-case relay callbacks
 

@@ -2,6 +2,7 @@ import os
 import google.generativeai as genai
 from dotenv import load_dotenv
 from agent.schemas import get_context_block
+from agent.tracing import trace_llm
 
 load_dotenv()
 
@@ -74,7 +75,13 @@ def explain(
     """
     try:
         prompt = _build_prompt(query, case_id, data_summary, recent_history)
-        response = _get_model().generate_content(prompt)
-        return response.text.strip()
+
+        # wrap the Gemini call so the full prompt and response are visible in LangSmith
+        with trace_llm("gemini_explain", {"prompt": prompt, "case_id": case_id}) as out:
+            response = _get_model().generate_content(prompt)
+            answer = response.text.strip()
+            out["response"] = answer
+            return answer
+
     except Exception as e:
         return f"Sorry, I could not generate a response right now. ({type(e).__name__})"
