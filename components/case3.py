@@ -6,26 +6,24 @@ def case3_layout(df):
     # button styles, toggled by callbacks depending on selection state
     _sel = {
         "background": "#378ADD",
-        "color": "white",
         "border": "1px solid #378ADD",
-        "borderRadius": "8px",
-        "padding": "10px 20px",
+        "borderRadius": "20px",
+        "padding": "6px 16px",
         "margin": "4px",
+        "fontSize": "13px",
+        "color": "white",
         "cursor": "pointer",
-        "minWidth": "120px",
-        "textAlign": "center",
     }
 
     _unsel = {
         "background": "white",
-        "color": "#444",
         "border": "1px solid #ccc",
-        "borderRadius": "8px",
-        "padding": "10px 20px",
+        "borderRadius": "20px",
+        "padding": "6px 16px",
         "margin": "4px",
+        "fontSize": "13px",
+        "color": "#444",
         "cursor": "pointer",
-        "minWidth": "120px",
-        "textAlign": "center",
     }
 
     _tab_active = {
@@ -51,21 +49,8 @@ def case3_layout(df):
         "cursor": "pointer",
     }
 
-    def _course_btn(course, methods, btn_id, style):
-        return html.Button(
-            [
-                html.Div(
-                    "Course " + course,
-                    style={"fontWeight": "bold", "fontSize": "14px"},
-                ),
-                html.Div(
-                    methods,
-                    style={"fontSize": "11px", "marginTop": "2px", "opacity": 0.75},
-                ),
-            ],
-            id=btn_id,
-            style=style,
-        )
+    def _course_btn(course, btn_id, style):
+        return html.Button("Course " + course, id=btn_id, style=style)
 
     def _tab_btn(label, btn_id, style):
         return html.Button(label, id=btn_id, style=style)
@@ -79,6 +64,7 @@ def case3_layout(df):
                         style={
                             "fontSize": "18px",
                             "fontWeight": "bold",
+                            "color": "#111",
                             "margin": "0 0 8px 0",
                         },
                     ),
@@ -92,7 +78,8 @@ def case3_layout(df):
                             "Hover over any variable name on the chart axis to read its definition."
                         ),
                         style={
-                            "fontSize": "13px",
+                            "fontSize": "14px",
+                            "fontWeight": "normal",
                             "color": "#666",
                             "lineHeight": "1.6",
                             "margin": "0",
@@ -121,9 +108,9 @@ def case3_layout(df):
                     ),
                     html.Div(
                         [
-                            _course_btn("A", "LECT, CASE",       "case3-btn-A", _sel),
-                            _course_btn("B", "LECT, PJBL, FLIP", "case3-btn-B", _sel),
-                            _course_btn("C", "LECT, PRBL",       "case3-btn-C", _unsel),
+                            _course_btn("A", "case3-btn-A", _sel),
+                            _course_btn("B", "case3-btn-B", _sel),
+                            _course_btn("C", "case3-btn-C", _unsel),
                         ],
                         style={"display": "flex", "flexWrap": "wrap"},
                     ),

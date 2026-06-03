@@ -48,7 +48,10 @@ TAB_INACTIVE_STYLE = {
 
 # chat panel placeholder text
 _PLACEHOLDER = (
-    "Ask about the data, or filter it"
+    "Ask about the data or filter it by any dimension — "
+    "e.g. 'What does the satisfaction score measure?' or "
+    "'Show me only Engineering and Law'. "
+    "Use Reset filters to restore the full dataset."
 )
 
 # layout
@@ -147,7 +150,7 @@ app.layout = html.Div(
                                 style={
                                     "fontSize": "13px",
                                     "color": "#aaa",
-                                    "lineHeight": "1.7",
+                                    "lineHeight": "1.6",
                                     "fontStyle": "italic",
                                 },
                             ),
@@ -297,7 +300,7 @@ def update_navigation(case1_clicks, case2_clicks, case3_clicks, case4_clicks, ac
     return [content, selected_case, *styles, [], False]
 
 
-# register callbacks 
+# register callbacks
 register_case1_callbacks(app, df1)
 register_case2_callbacks(app, df2)
 register_case3_callbacks(app, df3)

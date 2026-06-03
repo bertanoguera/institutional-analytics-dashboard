@@ -20,6 +20,7 @@ def case2_layout(df):
                         style={
                             "fontSize": "18px",
                             "fontWeight": "bold",
+                            "color": "#111",
                             "margin": "0 0 8px 0"
                         }
                     ),
@@ -31,37 +32,26 @@ def case2_layout(df):
                         "Hover over a bar for details, or expand the section below to see the performance gap.",
                         style={
                             "fontSize": "14px",
+                            "fontWeight": "normal",
                             "color": "#666",
                             "margin": "0"
                         }
-                    )
-                ],
-                style={
-                    "border": "1px solid #e0e0e0",
-                    "borderRadius": "8px",
-                    "padding": "16px",
-                    "marginBottom": "20px"
-                }
-            ),
-
-            # performance score explainer with grade band colour scale
-            html.Div(
-                [
-                    html.Label(
+                    ),
+                    html.Hr(style={"border": "none", "borderTop": "1px solid #e0e0e0", "margin": "12px 0"}),
+                    html.P(
                         "What does the performance score measure?",
                         style={
                             "fontSize": "14px",
-                            "fontWeight": "500",
                             "fontWeight": "bold",
-                            "marginBottom": "8px",
-                            "display": "block",
-                            "color": "#333"
+                            "color": "#666",
+                            "margin": "0 0 4px 0",
                         }
                     ),
                     html.P(
                         "Performance is measured through a normalized weighted grade, calculated at course level using the Spanish grading system (fail, pass, notable, excellent). Each band is assigned its midpoint value, and a weighted average is computed across all students. The result is normalized relative to the institutional range, it does not represent a percentage.",
                         style={
-                            "fontSize": "13px",
+                            "fontSize": "14px",
+                            "fontWeight": "normal",
                             "color": "#666",
                             "lineHeight": "1.6",
                             "margin": "0 0 12px 0"
@@ -109,9 +99,9 @@ def case2_layout(df):
                     )
                 ],
                 style={
-                    "background": "#F8F8F8",
+                    "border": "1px solid #e0e0e0",
                     "borderRadius": "8px",
-                    "padding": "14px 16px",
+                    "padding": "16px",
                     "marginBottom": "20px"
                 }
             ),

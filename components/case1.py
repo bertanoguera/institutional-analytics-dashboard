@@ -27,6 +27,7 @@ def case1_layout(df):
                         style={
                             "fontSize": "18px",
                             "fontWeight": "bold",
+                            "color": "#111",
                             "margin": "0 0 8px 0"
                         }
                     ),
@@ -36,6 +37,7 @@ def case1_layout(df):
                         "Hover over a bar for details, or expand the section below to see the full score distribution.",
                         style={
                             "fontSize": "14px",
+                            "fontWeight": "normal",
                             "color": "#666",
                             "margin": "0"
                         }
@@ -52,72 +54,55 @@ def case1_layout(df):
             # summary kpi cards (one per faculty)
             html.Div(
                 [
+                    html.Label(
+                        "Faculty glossary",
+                        style={
+                            "fontSize": "14px",
+                            "color": "#888",
+                            "marginBottom": "8px",
+                            "display": "block",
+                        }
+                    ),
                     html.Div(
                         [
                             html.Div(
-                                f"{kpi_data[faculty]:.1f}",
+                                [
+                                    html.Div(
+                                        f"{kpi_data[faculty]:.1f}",
+                                        style={
+                                            "fontSize": "28px",
+                                            "fontWeight": "500",
+                                            "color": "#185FA5",
+                                            "margin": "0 0 4px 0"
+                                        }
+                                    ),
+                                    html.Div(
+                                        faculty,
+                                        style={
+                                            "fontSize": "12px",
+                                            "color": "#888",
+                                            "margin": "0"
+                                        }
+                                    )
+                                ],
                                 style={
-                                    "fontSize": "28px",
-                                    "fontWeight": "500",
-                                    "color": "#185FA5",
-                                    "margin": "0 0 4px 0"
-                                }
-                            ),
-                            html.Div(
-                                faculty,
-                                style={
-                                    "fontSize": "12px",
-                                    "color": "#888",
-                                    "margin": "0"
-                                }
-                            )
-                        ],
-                        style={
-                            "border": "1px solid #e0e0e0",
-                            "borderRadius": "8px",
-                            "padding": "12px 16px",
-                            "flex": "1",
-                            "textAlign": "center",
-                            "marginRight": "12px"
-                        }
-                    )
-                    for faculty in faculties
-                ][:-1] + [
-                    # last card has no right margin
-                    html.Div(
-                        [
-                            html.Div(
-                                f"{kpi_data[faculties[-1]]:.1f}",
-                                style={
-                                    "fontSize": "28px",
-                                    "fontWeight": "500",
-                                    "color": "#185FA5",
-                                    "margin": "0 0 4px 0"
-                                }
-                            ),
-                            html.Div(
-                                faculties[-1],
-                                style={
-                                    "fontSize": "12px",
-                                    "color": "#888",
-                                    "margin": "0"
+                                    "border": "1px solid #e0e0e0",
+                                    "borderRadius": "8px",
+                                    "padding": "12px 16px",
+                                    "flex": "1",
+                                    "textAlign": "center",
+                                    **({"marginRight": "12px"} if faculty != faculties[-1] else {})
                                 }
                             )
+                            for faculty in faculties
                         ],
                         style={
-                            "border": "1px solid #e0e0e0",
-                            "borderRadius": "8px",
-                            "padding": "12px 16px",
-                            "flex": "1",
-                            "textAlign": "center"
+                            "display": "flex",
+                            "gap": "0",
                         }
-                    )
+                    ),
                 ],
-                style={
-                    "display": "flex",
-                    "gap": "0",
-                    "marginBottom": "20px"
-                }
+                style={"marginBottom": "20px"}
             ),
 
             # faculty filter buttons

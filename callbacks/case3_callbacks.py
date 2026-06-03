@@ -186,26 +186,24 @@ INSIGHTS = {
 
 _SEL_BTN = {
     "background": "#378ADD",
-    "color": "white",
     "border": "1px solid #378ADD",
-    "borderRadius": "8px",
-    "padding": "10px 20px",
+    "borderRadius": "20px",
+    "padding": "6px 16px",
     "margin": "4px",
+    "fontSize": "13px",
+    "color": "white",
     "cursor": "pointer",
-    "minWidth": "120px",
-    "textAlign": "center",
 }
 
 _UNSEL_BTN = {
     "background": "white",
-    "color": "#444",
     "border": "1px solid #ccc",
-    "borderRadius": "8px",
-    "padding": "10px 20px",
+    "borderRadius": "20px",
+    "padding": "6px 16px",
     "margin": "4px",
+    "fontSize": "13px",
+    "color": "#444",
     "cursor": "pointer",
-    "minWidth": "120px",
-    "textAlign": "center",
 }
 
 _TAB_ACTIVE = {

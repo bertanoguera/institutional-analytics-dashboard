@@ -53,8 +53,10 @@ _LAYOUT_COMMON = dict(
 )
 
 _PLACEHOLDER = (
-    "This assistant can explain the data or filter it by any available dimension. "
-    "Use the Reset filters button above to go back to the full unfiltered dataset."
+    "Ask about the data or filter it by any dimension — "
+    "e.g. 'What does the satisfaction score measure?' or "
+    "'Show me only Engineering and Law'. "
+    "Use Reset filters to restore the full dataset."
 )
 
 # maps every case 3 indicator to the group it belongs to (used for validation).
@@ -409,7 +411,7 @@ def _render_history(history: list) -> html.Div:
     if not history:
         return html.Div(
             _PLACEHOLDER,
-            style={"fontSize": "13px", "color": "#aaa", "lineHeight": "1.7", "fontStyle": "italic"},
+            style={"fontSize": "13px", "color": "#aaa", "lineHeight": "1.6", "fontStyle": "italic"},
         )
 
     items = []
@@ -477,7 +479,7 @@ def _render_history(history: list) -> html.Div:
                         "fontSize": "13px",
                         "color": "#333",
                         "maxWidth": "95%",
-                        "lineHeight": "1.7",
+                        "lineHeight": "1.6",
                     },
                 )
             )

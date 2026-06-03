@@ -40,7 +40,7 @@ def case4_layout(df):
 
     return html.Div(
         [
-            # title and description block
+            # title, description, and variable explainer in one unified block
             html.Div(
                 [
                     html.H2(
@@ -48,39 +48,28 @@ def case4_layout(df):
                         style={
                             "fontSize": "18px",
                             "fontWeight": "bold",
+                            "color": "#111",
                             "margin": "0 0 8px 0",
                         },
                     ),
                     html.P(
                         "Shannon Diversity Index, a measure of LMS task variety (0-2.5 scale), "
-                        "compared between courses rated highest (Top courses)and lowest (Bottom courses) for workload satisfaction, "
+                        "compared between courses rated highest (Top courses) and lowest (Bottom courses) for workload satisfaction, "
                         "broken down by teaching methodology. "
                         "Bars show whether more varied task design is associated with better workload "
                         "satisfaction, and highlight where that pattern breaks down. "
                         "Hover over a bar for exact values.",
-                        style={"fontSize": "14px", "color": "#666", "margin": "0"},
+                        style={"fontSize": "14px", "fontWeight": "normal", "color": "#666", "margin": "0"},
                     ),
-                ],
-                style={
-                    "border": "1px solid #e0e0e0",
-                    "borderRadius": "8px",
-                    "padding": "16px",
-                    "marginBottom": "20px",
-                },
-            ),
-
-            # Shannon Diversity Index explainer block
-            html.Div(
-                [
-                    html.Label(
+                    html.Hr(style={"border": "none", "borderTop": "1px solid #e0e0e0", "margin": "12px 0"}),
+                    html.P(
                         "What is the Shannon Diversity Index?",
                         style={
                             "fontSize": "14px",
                             "fontWeight": "bold",
-                            "color": "#333",
-                            "marginBottom": "8px",
-                            "display": "block",
-                        },
+                            "color": "#666",
+                            "margin": "0 0 4px 0",
+                        }
                     ),
                     html.P(
                         (
@@ -91,13 +80,13 @@ def case4_layout(df):
                             "(maximum variety across all types)."
                         ),
                         style={
-                            "fontSize": "13px",
+                            "fontSize": "14px",
+                            "fontWeight": "normal",
                             "color": "#666",
                             "lineHeight": "1.6",
                             "margin": "0 0 12px 0",
                         },
                     ),
-                    # gradient scale bar
                     html.Div(
                         style={
                             "background": "linear-gradient(to right, #d6eaf8, #1D9E75)",
@@ -108,26 +97,17 @@ def case4_layout(df):
                     ),
                     html.Div(
                         [
-                            html.Span(
-                                "0 — single type",
-                                style={"fontSize": "10px", "color": "#888"},
-                            ),
-                            html.Span(
-                                "1.25",
-                                style={"fontSize": "10px", "color": "#888"},
-                            ),
-                            html.Span(
-                                "2.5 — max variety",
-                                style={"fontSize": "10px", "color": "#888"},
-                            ),
+                            html.Span("0 — single type", style={"fontSize": "10px", "color": "#888"}),
+                            html.Span("1.25", style={"fontSize": "10px", "color": "#888"}),
+                            html.Span("2.5 — max variety", style={"fontSize": "10px", "color": "#888"}),
                         ],
                         style={"display": "flex", "justifyContent": "space-between"},
                     ),
                 ],
                 style={
-                    "background": "#F8F8F8",
+                    "border": "1px solid #e0e0e0",
                     "borderRadius": "8px",
-                    "padding": "14px 16px",
+                    "padding": "16px",
                     "marginBottom": "20px",
                 },
             ),
