@@ -27,7 +27,7 @@ TAB_BASE_STYLE = {
     "background": "none",
     "border": "none",
     "borderBottom": "2px solid transparent",
-    "color": "#888",
+    "color": "#555",
     "cursor": "pointer",
     "fontSize": "14px",
     "padding": "12px 18px",
@@ -42,7 +42,7 @@ TAB_ACTIVE_STYLE = {
 
 TAB_INACTIVE_STYLE = {
     **TAB_BASE_STYLE,
-    "color": "#888",
+    "color": "#555",
     "borderBottom": "2px solid transparent",
 }
 
@@ -120,7 +120,7 @@ app.layout = html.Div(
                                 "background": "transparent",
                                 "border": "1px solid #e0e0e0",
                                 "borderRadius": "20px",
-                                "color": "#ccc",
+                                "color": "#888",
                                 "fontSize": "12px",
                                 "fontWeight": "500",
                                 "cursor": "not-allowed",
@@ -149,7 +149,7 @@ app.layout = html.Div(
                                 _PLACEHOLDER,
                                 style={
                                     "fontSize": "13px",
-                                    "color": "#aaa",
+                                    "color": "#777",
                                     "lineHeight": "1.6",
                                     "fontStyle": "italic",
                                 },
@@ -289,7 +289,7 @@ def update_navigation(case1_clicks, case2_clicks, case3_clicks, case4_clicks, ac
     }
     content = content_map.get(
         selected_case,
-        lambda: html.Div("Coming soon", style={"padding": "40px", "color": "#888", "fontSize": "16px"}),
+        lambda: html.Div("Coming soon", style={"padding": "40px", "color": "#555", "fontSize": "16px"}),
     )()
 
     styles = [

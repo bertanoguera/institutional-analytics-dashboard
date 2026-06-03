@@ -219,7 +219,7 @@ _TAB_ACTIVE = {
 }
 
 _TAB_INACTIVE = {
-    "color": "#888",
+    "color": "#555",
     "borderBottom": "2px solid transparent",
     "background": "none",
     "borderTop": "none",

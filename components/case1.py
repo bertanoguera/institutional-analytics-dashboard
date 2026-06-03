@@ -38,7 +38,7 @@ def case1_layout(df):
                         style={
                             "fontSize": "14px",
                             "fontWeight": "normal",
-                            "color": "#666",
+                            "color": "#444",
                             "margin": "0"
                         }
                     )
@@ -58,7 +58,7 @@ def case1_layout(df):
                         "Faculty glossary",
                         style={
                             "fontSize": "14px",
-                            "color": "#888",
+                            "color": "#555",
                             "marginBottom": "8px",
                             "display": "block",
                         }
@@ -80,7 +80,7 @@ def case1_layout(df):
                                         faculty,
                                         style={
                                             "fontSize": "12px",
-                                            "color": "#888",
+                                            "color": "#555",
                                             "margin": "0"
                                         }
                                     )
@@ -112,7 +112,7 @@ def case1_layout(df):
                         "Faculties shown:",
                         style={
                             "fontSize": "14px",
-                            "color": "#888",
+                            "color": "#555",
                             "marginBottom": "8px",
                             "display": "block"
                         }
@@ -186,7 +186,7 @@ def case1_layout(df):
                         "Want to explore beyond the summary? The section below shows the full spread of professor scores within each selected faculty and student gender group.",
                         style={
                             "fontSize": "14px",
-                            "color": "#888",
+                            "color": "#555",
                             "fontStyle": "italic",
                             "marginBottom": "6px",
                             "display": "block"
@@ -223,7 +223,7 @@ def case1_layout(df):
                     "borderRadius": "6px",
                     "padding": "10px 14px",
                     "fontSize": "12px",
-                    "color": "#888",
+                    "color": "#555",
                     "marginTop": "12px"
                 }
             )

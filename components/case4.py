@@ -25,7 +25,7 @@ def case4_layout(df):
                 ),
                 html.Div(
                     item["name"],
-                    style={"fontSize": "12px", "color": "#888", "margin": "0"},
+                    style={"fontSize": "12px", "color": "#555", "margin": "0"},
                 ),
             ],
             style={
@@ -59,7 +59,7 @@ def case4_layout(df):
                         "Bars show whether more varied task design is associated with better workload "
                         "satisfaction, and highlight where that pattern breaks down. "
                         "Hover over a bar for exact values.",
-                        style={"fontSize": "14px", "fontWeight": "normal", "color": "#666", "margin": "0"},
+                        style={"fontSize": "14px", "fontWeight": "normal", "color": "#444", "margin": "0"},
                     ),
                     html.Hr(style={"border": "none", "borderTop": "1px solid #e0e0e0", "margin": "12px 0"}),
                     html.P(
@@ -67,7 +67,7 @@ def case4_layout(df):
                         style={
                             "fontSize": "14px",
                             "fontWeight": "bold",
-                            "color": "#666",
+                            "color": "#444",
                             "margin": "0 0 4px 0",
                         }
                     ),
@@ -82,7 +82,7 @@ def case4_layout(df):
                         style={
                             "fontSize": "14px",
                             "fontWeight": "normal",
-                            "color": "#666",
+                            "color": "#444",
                             "lineHeight": "1.6",
                             "margin": "0 0 12px 0",
                         },
@@ -97,9 +97,9 @@ def case4_layout(df):
                     ),
                     html.Div(
                         [
-                            html.Span("0 — single type", style={"fontSize": "10px", "color": "#888"}),
-                            html.Span("1.25", style={"fontSize": "10px", "color": "#888"}),
-                            html.Span("2.5 — max variety", style={"fontSize": "10px", "color": "#888"}),
+                            html.Span("0 — single type", style={"fontSize": "10px", "color": "#555"}),
+                            html.Span("1.25", style={"fontSize": "10px", "color": "#555"}),
+                            html.Span("2.5 — max variety", style={"fontSize": "10px", "color": "#555"}),
                         ],
                         style={"display": "flex", "justifyContent": "space-between"},
                     ),
@@ -119,7 +119,7 @@ def case4_layout(df):
                         "Methodology glossary",
                         style={
                             "fontSize": "14px",
-                            "color": "#888",
+                            "color": "#555",
                             "marginBottom": "8px",
                             "display": "block",
                         },
@@ -204,7 +204,7 @@ def case4_layout(df):
                     "borderRadius": "6px",
                     "padding": "10px 14px",
                     "fontSize": "12px",
-                    "color": "#888",
+                    "color": "#555",
                     "marginTop": "4px",
                 },
             ),

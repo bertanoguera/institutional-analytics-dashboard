@@ -33,7 +33,7 @@ def case2_layout(df):
                         style={
                             "fontSize": "14px",
                             "fontWeight": "normal",
-                            "color": "#666",
+                            "color": "#444",
                             "margin": "0"
                         }
                     ),
@@ -43,7 +43,7 @@ def case2_layout(df):
                         style={
                             "fontSize": "14px",
                             "fontWeight": "bold",
-                            "color": "#666",
+                            "color": "#444",
                             "margin": "0 0 4px 0",
                         }
                     ),
@@ -52,7 +52,7 @@ def case2_layout(df):
                         style={
                             "fontSize": "14px",
                             "fontWeight": "normal",
-                            "color": "#666",
+                            "color": "#444",
                             "lineHeight": "1.6",
                             "margin": "0 0 12px 0"
                         }
@@ -92,8 +92,8 @@ def case2_layout(df):
                     ),
                     html.Div(
                         [
-                            html.Div("lower performance", style={"fontSize": "12px", "color": "#888"}),
-                            html.Div("higher performance", style={"fontSize": "12px", "color": "#888"})
+                            html.Div("lower performance", style={"fontSize": "12px", "color": "#555"}),
+                            html.Div("higher performance", style={"fontSize": "12px", "color": "#555"})
                         ],
                         style={"display": "flex", "justifyContent": "space-between"}
                     )
@@ -113,7 +113,7 @@ def case2_layout(df):
                         "Methodology glossary",
                         style={
                             "fontSize": "14px",
-                            "color": "#888",
+                            "color": "#555",
                             "marginBottom": "8px",
                             "display": "block"
                         }
@@ -135,7 +135,7 @@ def case2_layout(df):
                                         item["name"],
                                         style={
                                             "fontSize": "12px",
-                                            "color": "#888",
+                                            "color": "#555",
                                             "margin": "0"
                                         }
                                     )
@@ -167,7 +167,7 @@ def case2_layout(df):
                                         methodology_pills[-1]["name"],
                                         style={
                                             "fontSize": "12px",
-                                            "color": "#888",
+                                            "color": "#555",
                                             "margin": "0"
                                         }
                                     )
@@ -220,7 +220,7 @@ def case2_layout(df):
                         "How large is the difference in performance between top and bottom-rated courses for each methodology?",
                         style={
                             "fontSize": "14px",
-                            "color": "#888",
+                            "color": "#555",
                             "fontStyle": "italic",
                             "marginBottom": "6px",
                             "display": "block"
@@ -255,7 +255,7 @@ def case2_layout(df):
                     "borderRadius": "6px",
                     "padding": "10px 14px",
                     "fontSize": "12px",
-                    "color": "#888",
+                    "color": "#555",
                     "marginTop": "12px"
                 }
             )

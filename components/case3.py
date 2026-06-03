@@ -39,7 +39,7 @@ def case3_layout(df):
     }
 
     _tab_inactive = {
-        "color": "#888",
+        "color": "#555",
         "borderBottom": "2px solid transparent",
         "background": "none",
         "borderTop": "none",
@@ -80,7 +80,7 @@ def case3_layout(df):
                         style={
                             "fontSize": "14px",
                             "fontWeight": "normal",
-                            "color": "#666",
+                            "color": "#444",
                             "lineHeight": "1.6",
                             "margin": "0",
                         },
@@ -101,7 +101,7 @@ def case3_layout(df):
                         "Select up to two courses to compare against the institutional average:",
                         style={
                             "fontSize": "14px",
-                            "color": "#888",
+                            "color": "#555",
                             "marginBottom": "8px",
                             "display": "block",
                         },
@@ -135,7 +135,7 @@ def case3_layout(df):
                         id="case3-variable-list",
                         style={
                             "fontSize": "11px",
-                            "color": "#888",
+                            "color": "#555",
                             "fontStyle": "italic",
                             "marginTop": "6px",
                         },
@@ -177,7 +177,7 @@ def case3_layout(df):
                     "borderRadius": "6px",
                     "padding": "10px 14px",
                     "fontSize": "12px",
-                    "color": "#888",
+                    "color": "#555",
                     "marginTop": "12px",
                 },
             ),

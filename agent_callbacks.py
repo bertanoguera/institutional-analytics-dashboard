@@ -98,7 +98,7 @@ _RESET_BTN_INACTIVE = {
     "background": "transparent",
     "border": "1px solid #e0e0e0",
     "borderRadius": "20px",
-    "color": "#ccc",
+    "color": "#888",
     "fontSize": "12px",
     "fontWeight": "500",
     "cursor": "not-allowed",
@@ -411,7 +411,7 @@ def _render_history(history: list) -> html.Div:
     if not history:
         return html.Div(
             _PLACEHOLDER,
-            style={"fontSize": "13px", "color": "#aaa", "lineHeight": "1.6", "fontStyle": "italic"},
+            style={"fontSize": "13px", "color": "#777", "lineHeight": "1.6", "fontStyle": "italic"},
         )
 
     items = []
@@ -443,7 +443,7 @@ def _render_history(history: list) -> html.Div:
                         "borderRadius": "12px",
                         "padding": "10px 18px",
                         "fontSize": "20px",
-                        "color": "#aaa",
+                        "color": "#777",
                         "letterSpacing": "4px",
                         "lineHeight": "1",
                     },
